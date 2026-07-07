@@ -17,6 +17,7 @@ from scripts.preprocessing.conform import conform
 #     <input nii files>  --config </path/to/config.json (optional)> \
 #     --mask </path/to/mask.nii.gz (optional)>
 
+# NOTE: channel order matters, it hast to match the respective run config
 
 # assumption:
 # run directory structure is as follows:
@@ -36,7 +37,6 @@ parser.add_argument(
     help="Path to the run directory containing the config and checkpoint.",
 )
 parser.add_argument(
-    "-c",
     "--checkpoint",
     type=str,
     default="ckpt/last.pth",
@@ -73,7 +73,15 @@ parser.add_argument(
     help="If set, only the axial slices will be predicted to speed prediction up.",
 )
 parser.add_argument("-f", "--force", action="store_true", help="Use the force, Luke.")
-
+parser.add_argument(
+    "--skull_strip",
+    "-s",
+    action="store_true",
+    help="Apply brain mask to the denoiser input.",
+)
+parser.add_argument(
+    "--crop", "-c", action="store_true", help="Crop to max input size of the model"
+)
 args = parser.parse_args()
 
 if args.force:
@@ -246,6 +254,7 @@ try:
     config.data.data_dir = ""
     # For inference, we don't require ground-truth targets.
     config.data.target_sequence = ""
+    config.data.skull_strip = args.skull_strip
 
     # Keep mask-based ROI cropping enabled (dummy mask is provided if real mask is absent).
 
@@ -270,6 +279,7 @@ try:
             subject_indices=[0],
             check_if_exists=False,
             view_agg=(not args.axial_only),
+            crop=args.crop,
         )
 
         # reg_predict saves: <out_root>/<subject_ID>/*.nii.gz
@@ -294,6 +304,7 @@ try:
             args.checkpoint,
             config.copy(),
             subject_indices=[0],
+            crop=args.crop,
         )
 
         if args.axial_only:
@@ -309,6 +320,7 @@ try:
                 args.checkpoint,
                 config.copy(),
                 subject_indices=[0],
+                crop=args.crop,
             )
 
             # coronal
@@ -321,6 +333,7 @@ try:
                 args.checkpoint,
                 config.copy(),
                 subject_indices=[0],
+                crop=args.crop,
             )
 
             import nibabel as nib

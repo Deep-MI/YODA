@@ -24,6 +24,7 @@ def main(
     subject_indices,
     check_if_exists=False,
     view_agg=False,
+    crop=False,
 ):
     dtype = parse_dtype(config.trainer.dtype)
     if not "/" in ckpt_name:
@@ -41,7 +42,7 @@ def main(
             )
         slicing_directions = ["axial", "coronal", "sagittal"]
 
-    size = None
+    size = tuple([config.data.img_size[0]] * 3) if crop else None
     skull_strip = config.data.get("skull_strip", False)
     if skull_strip != 1 and skull_strip != 0:
         warnings.warn(

@@ -32,6 +32,7 @@ def main(
     quantile_norm=False,
     tqdm_verbose=True,
     check_if_exists=False,
+    crop=False,
 ):
     dtype = parse_dtype(config.trainer.dtype)
     if not "/" in ckpt_name:
@@ -54,7 +55,7 @@ def main(
             (max(config.data.img_size) - config.data.slice_thickness + 1,) * 3
             # if no crop_to_brain_margin is specified
             if config.data.crop_to_brain_margin is None
-            else None  # else just center crop to img_size
+            else (tuple([config.data.img_size[0]] * 3) if crop else None)
         )
     )
     skull_strip = config.data.get("skull_strip", False)

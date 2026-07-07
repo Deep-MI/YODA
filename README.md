@@ -13,6 +13,7 @@ avoiding the need for expensive diffusion sampling and averaging multiple images
 sampling, we show that [diffusion and regression sampling are equivalent](#expa-sampling-simulated-signal-averages)
 i.e. the additional generation of fine-grained high-frequency details is non-systematic and mainly imitates acquisition noise
 
+For dedicated denoisers (i.e. *within modality "translation"* for the sole purpose of noise suppression), see [YADO](github.com/Deep-MI/YADO) (the weights are compatible between regression YODA and YADO).
 
 <p align="center">
   <img src="https://i.imgflip.com/9nwe3z.jpg" alt = "Star Wars meme" style="width:400px;"/>  
@@ -39,6 +40,8 @@ The appropriate python environment can be obtained via
 | [`rs_T1_from_T2w.zip`](https://zenodo.org/records/19088324/files/rs_T1_from_T2w.zip) | FLAIR → T2w | 1 mm | RS (n=2500) | Regression | YODA, ISMRM 2026 (T1w-FastSurfer) |
 </details>
 
+Note: For denoising (**within** modality translation) similar to regression-YODA, see our [YADO denoiser](github.com/Deep-MI/YADO) (ECCV 2026).
+Most of the code is inter-compatible between YODA and YADO.
 
 ## TLDR: how to run the model
 From the repo root, run single-subject denoising with the `wrapper.py` entrypoint (it will conform inputs and run prediction):
