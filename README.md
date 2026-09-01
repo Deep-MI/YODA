@@ -38,6 +38,14 @@ The appropriate python environment can be obtained via
 | [`GoldAtlas_CT_from_MR.zip`](https://zenodo.org/records/19088324/files/GoldAtlas_CT_from_MR.zip) | T1w+T2w → CT | ~1×1×3 mm | Gold Atlas (n=11) | Diffusion | YODA                              |
 | [`rs_T1_from_FLAIR.zip`](https://zenodo.org/records/19088324/files/rs_T1_from_FLAIR.zip) | FLAIR → T1w | 1 mm | RS (n=2500) | Regression | YODA, ISMRM 2026 (T1w-FastSurfer) |
 | [`rs_T1_from_T2w.zip`](https://zenodo.org/records/19088324/files/rs_T1_from_T2w.zip) | FLAIR → T2w | 1 mm | RS (n=2500) | Regression | YODA, ISMRM 2026 (T1w-FastSurfer) |
+
+
+<div style="border-left: 4px solid #f0ad4e; padding: 10px 15px; margin: 15px 0;">
+
+**⚠️ NOTE:** Diffusion-trained checkpoints can be (ab)used with regression sampling. Thus, independent of the training paradigm, we **strongly recommend using regression sampling** — unless you REALLY need perceptual realism. We are not aware of an actual use-case beyond fooling clinicians.
+
+</div>
+
 </details>
 
 Note: For denoising (**within** modality translation) similar to regression-YODA, see our [YADO denoiser](github.com/Deep-MI/YADO) (ECCV 2026).
